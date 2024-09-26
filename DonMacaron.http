@@ -1,0 +1,6 @@
+@DonMacaron_HostAddress = http://localhost:5298
+
+GET {{DonMacaron_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

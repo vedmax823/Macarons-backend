@@ -1,0 +1,19 @@
+# Visual Studio Code specific files
+.vscode/
+*.code-workspace
+
+# .NET specific files
+bin/
+obj/
+*.user
+*.rsuser
+*.suo
+*.sln.docstates
+.vs/
+
+# Ignore build results
+build/
+
+# Packages
+*.nupkg
+*.snupkg
