@@ -11,6 +11,5 @@ public interface IIngredientService
     public Task<Ingredient> CreateIngredient(CreateIngredientDto createIngredientDto);
     public Task<Ingredient> UpdateIngredient(UpdateIngredientDto updateIngredientDto, Guid id);
     public Task<Ingredient> GetIngredientById(Guid id);
-
     public Task<List<Ingredient>> GetIngredientsListByIds(List<Guid> ids);
 }

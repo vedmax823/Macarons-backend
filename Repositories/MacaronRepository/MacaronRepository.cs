@@ -32,4 +32,11 @@ public class MacaronRepository(DataContext context) : IMacaronRepository
                 .ThenInclude(i => i.Allergen)
                 .ToListAsync();
     }
+
+    public async Task<Macaron> UpdateMacaron(Macaron macaron)
+    {
+        _context.Macarons.Update(macaron);
+        await _context.SaveChangesAsync();
+        return macaron;
+    }
 }

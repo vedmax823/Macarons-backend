@@ -7,8 +7,9 @@ namespace DonMacaron.Services;
 
 public interface IMacaronService
 {
-    public Task<Macaron> CreateMacaron(CreateMacaronDto createMacaronDto);
+    public Task<MacaronDto> CreateMacaron(CreateMacaronDto createMacaronDto);
     public Task<List<MacaronDto>> GetMacarons();
     public Task<Macaron> GetOneById(Guid id);
+    public Task<MacaronDto> UpdateMacaron(Guid id,  CreateMacaronDto createMacaronDto);
 
 }

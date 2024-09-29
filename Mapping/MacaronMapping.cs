@@ -38,4 +38,17 @@ public static class MacaronMapping
             UpdatedAt = m.UpdatedAt
         };
     }
+
+    public static Macaron NewEntity(this Macaron macaron, CreateMacaronDto createMacaronDto, List<Ingredient> ingredients)
+    {
+        macaron.Taste = createMacaronDto.Taste;
+        macaron.Ingredients = ingredients;
+        macaron.PictureLink = createMacaronDto.PictureLink;
+        macaron.Price = createMacaronDto.Price;
+        macaron.AdvertismentPrice = createMacaronDto.AdvertismentPrice;
+        macaron.Description = createMacaronDto.Description;
+        macaron.IsXl = createMacaronDto.IsXl;
+        macaron.IsCurrentlyUnavailable = createMacaronDto.IsCurrentlyUnavailable;
+        return macaron;
+    }
 }

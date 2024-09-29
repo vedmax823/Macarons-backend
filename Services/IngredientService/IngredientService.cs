@@ -36,11 +36,7 @@ public class IngredientService(IIngredientRepository ingredientRepository, IAlle
 
     public async Task<List<Ingredient>> GetIngredientsListByIds(List<Guid> ids)
     {
-        List<Ingredient> ingredients= [];
-        foreach(var id in ids){
-            Ingredient ingredient = await _ingredientRepository.GetIngredientById(id) ?? throw new KeyNotFoundException("Ingredient wasn't found");
-            ingredients.Add(ingredient);
-        }
+        List<Ingredient> ingredients = await _ingredientRepository.GetIngredientsByIds(ids);
         return ingredients;
     }
 

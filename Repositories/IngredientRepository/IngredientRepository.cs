@@ -23,7 +23,19 @@ public class IngredientRepository(DataContext context) : IIngredientRepository
 
     public async Task<List<Ingredient>> GetIngredients()
     {
-        return await _context.Ingredients.Include(a=> a.Allergen).ToListAsync();
+        return await _context.Ingredients.Include(a => a.Allergen).ToListAsync();
+    }
+
+    public async Task<List<Ingredient>> GetIngredientsByIds(List<Guid> ids)
+    {
+        if (ids == null || ids.Count == 0)
+        {
+            return [];
+        }
+
+        return await _context.Ingredients
+            .Where(i => ids.Contains(i.Id)) 
+            .ToListAsync();
     }
 
     public async Task<Ingredient> UpdateIngredient(Ingredient ingredient)

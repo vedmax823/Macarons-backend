@@ -11,7 +11,8 @@ public static class IngredientMapping
     {
         return new Ingredient{
             Name = createIngredientDto.Name,
-            Allergen = allergen
+            Allergen = allergen,
+            ContainsGluten=createIngredientDto.ContainsGluten
         };
     }
 
@@ -19,7 +20,8 @@ public static class IngredientMapping
     {
         return new Ingredient{
             Name = updateIngredientDto.Name,
-            Allergen = allergen
+            Allergen = allergen,
+            ContainsGluten=updateIngredientDto.ContainsGluten
         };
     }
 
@@ -27,6 +29,7 @@ public static class IngredientMapping
     {
         ingredient.Name = updateIngredientDto.Name;
         ingredient.Allergen = allergen;
+        ingredient.ContainsGluten = updateIngredientDto.ContainsGluten;
         return ingredient;
     }
 }

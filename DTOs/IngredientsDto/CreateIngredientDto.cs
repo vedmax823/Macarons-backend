@@ -2,8 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DonMacaron.DTOs;
 
-public record class CreateIngredientDto
+public record CreateIngredientDto
 (
     [Required] string Name,
-    Guid? AllergenId
+    Guid? AllergenId,
+    bool ContainsGluten
 );
