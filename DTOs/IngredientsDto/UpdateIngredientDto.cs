@@ -5,5 +5,6 @@ namespace DonMacaron.DTOs.IngredientsDto;
 public record class UpdateIngredientDto
 (
     [Required] string Name,
-    Guid? AllergenId
+    Guid? AllergenId,
+    bool ContainsGluten
 );

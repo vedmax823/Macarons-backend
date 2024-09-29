@@ -8,4 +8,5 @@ public class Ingredient
     public required string Name {get; set;}
     public Allergen? Allergen {get; set;}
     public bool ContainsGluten {get; set;} = false;
+    public List<Macaron> Macarons {get; set;} = [];
 }

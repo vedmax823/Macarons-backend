@@ -47,6 +47,25 @@ namespace DonMacaron.Controllers
             return Ok(macaron);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        [Authorize(Roles="ADMIN")]
+        public async Task<IActionResult> UpdateMacaron(Guid id, CreateMacaronDto createMacaronDto)
+        {
+            try{
+                var macaron = await _service.UpdateMacaron(id, createMacaronDto);
+                return Ok(macaron);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
+
+        }
         
     }
 }

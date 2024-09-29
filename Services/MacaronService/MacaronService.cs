@@ -12,24 +12,29 @@ public class MacaronService(IMacaronRepository repository, IIngredientService in
     private readonly IMacaronRepository _repository = repository;
     private readonly IIngredientService _ingredientService = ingredientService;
 
-    public async Task<Macaron> CreateMacaron(CreateMacaronDto createMacaronDto)
+    public async Task<MacaronDto> CreateMacaron(CreateMacaronDto createMacaronDto)
     {
         List<Ingredient> ingredients = await _ingredientService.GetIngredientsListByIds(createMacaronDto.IngredientsIds);
-        return await _repository.CreateMacaron(createMacaronDto.ToEntity(ingredients));
+        var macaron = await _repository.CreateMacaron(createMacaronDto.ToEntity(ingredients));
+        return macaron.ToMacaronDto();
     }
 
     public async Task<List<MacaronDto>> GetMacarons()
     {
         var macarons = await _repository.GetMacarons();
-
-        // Мапінг даних на DTO (із списком Id інгредієнтів)
-        var macaronDtos = macarons.Select(m => m.ToMacaronDto()).ToList();
-
-        return macaronDtos;
+        return macarons.Select(m => m.ToMacaronDto()).ToList();
     }
 
     public async Task<Macaron> GetOneById(Guid id)
     {
         return await _repository.GetMacaronById(id);
+    }
+
+    public async Task<MacaronDto> UpdateMacaron(Guid id, CreateMacaronDto updateMacaronDto)
+    {
+        var macaron = await _repository.GetMacaronById(id) ?? throw new KeyNotFoundException("Macaron doesn't exsist");
+        List<Ingredient> ingredients = await _ingredientService.GetIngredientsListByIds(updateMacaronDto.IngredientsIds);
+        var newMacaron = await _repository.UpdateMacaron(macaron.NewEntity(updateMacaronDto, ingredients));
+        return newMacaron.ToMacaronDto();
     }
 }

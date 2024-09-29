@@ -9,5 +9,6 @@ public interface IIngredientRepository
     public Task<Ingredient> CreateIngredient(Ingredient ingredient);
     public Task<Ingredient> UpdateIngredient(Ingredient ingredient);
     public Task<Ingredient?> GetIngredientById(Guid id);
+    public Task<List<Ingredient>> GetIngredientsByIds(List<Guid> ids);
 
 }

@@ -13,14 +13,14 @@ public static class AllergenMapping
     {
         return new Allergen{
             Name = createAllergenDto.Name,
-            Link = createAllergenDto.PictureLink
+            Link = createAllergenDto.Link
         };
     }
 
     public static  Allergen NewEntity(this Allergen allergen, CreateAllergenDto updateAllergenDto)
     {
         allergen.Name = updateAllergenDto.Name;
-        allergen.Link = updateAllergenDto.PictureLink;
+        allergen.Link = updateAllergenDto.Link;
         return allergen;
     }
 
