@@ -2,7 +2,7 @@ using System;
 
 namespace DonMacaron.Entities;
 
-public class Ingredient
+public class Ingredient : AuditableEntity
 {
     public Guid Id {get; set;}
     public required string Name {get; set;}

@@ -22,12 +22,13 @@ namespace DonMacaron.Controllers
         }
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetOneMacaron(Guid id)
+        [Route("{publicUrl}")]
+        public async Task<IActionResult> GetOneMacaron(string publicUrl)
         {
-            try{
-            var macaron = await _service.GetOneById(id);
-            return Ok(macaron);
+            try
+            {
+                var macaron = await _service.GetOneByPublicUrl(publicUrl);
+                return Ok(macaron);
             }
             catch (KeyNotFoundException)
             {
@@ -43,18 +44,34 @@ namespace DonMacaron.Controllers
         [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> CreateMacaron(CreateMacaronDto createMacaronDto)
         {
-            var macaron = await _service.CreateMacaron(createMacaronDto);
-            return Ok(macaron);
+            try
+            {
+                var macaron = await _service.CreateMacaron(createMacaronDto);
+                return Ok(macaron);
+            }
+            catch (DuplicateWaitObjectException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "An unexpected error occurred." });
+            }
         }
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize(Roles="ADMIN")]
+        [Authorize(Roles = "ADMIN")]
         public async Task<IActionResult> UpdateMacaron(Guid id, CreateMacaronDto createMacaronDto)
         {
-            try{
+            try
+            {
                 var macaron = await _service.UpdateMacaron(id, createMacaronDto);
                 return Ok(macaron);
+            }
+            catch (DuplicateWaitObjectException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
@@ -66,6 +83,6 @@ namespace DonMacaron.Controllers
             }
 
         }
-        
+
     }
 }

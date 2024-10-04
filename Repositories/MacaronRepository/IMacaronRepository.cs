@@ -9,4 +9,5 @@ public interface IMacaronRepository
     public Task<List<Macaron>> GetMacarons();
     public Task<Macaron> GetMacaronById(Guid Id);
     public Task<Macaron> UpdateMacaron(Macaron macaron);
+    public Task<Macaron?> GetMacaronByPublicUrl(string publicUrl);
 }

@@ -2,6 +2,7 @@
 using System.Net.Http.Headers;
 using DonMacaron.Controllers;
 using DonMacaron.DTOs;
+using DonMacaron.DTOs.AllergenDto;
 using DonMacaron.Entities;
 
 
@@ -22,6 +23,17 @@ public static class AllergenMapping
         allergen.Name = updateAllergenDto.Name;
         allergen.Link = updateAllergenDto.Link;
         return allergen;
+    }
+
+    public static AllergenDto ToAllergenDto(this Allergen allergen)
+    {
+        return new AllergenDto(
+            allergen.Id,
+            allergen.Name,
+            allergen.Link,
+            allergen.CreatedAt,
+            allergen.UpdatedAt
+        );
     }
 
 }

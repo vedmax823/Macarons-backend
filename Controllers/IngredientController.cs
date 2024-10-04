@@ -1,6 +1,7 @@
 using DonMacaron.DTOs;
 using DonMacaron.DTOs.IngredientsDto;
 using DonMacaron.Entities;
+using DonMacaron.Mapping;
 using DonMacaron.Services.IngredientService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace DonMacaron.Controllers
         {
             try{
                 var ingredient = await _service.CreateIngredient(createIngredientDto);
-                return Ok(ingredient);
+                return Ok(ingredient.ToDto());
             }
             catch (Exception){
                 return StatusCode(500, new { message = "An unexpected error occurred." });
@@ -43,7 +44,7 @@ namespace DonMacaron.Controllers
         {
             try{
                 var ingredient = await _service.GetIngredientById(id);
-                return Ok(ingredient);
+                return Ok(ingredient.ToDto());
             }
             catch (KeyNotFoundException ex){
                 return NotFound(ex.Message);
@@ -60,7 +61,7 @@ namespace DonMacaron.Controllers
         {
             try{
                 var ingredient = await _service.UpdateIngredient(updateIngredientDto, id);
-                return Ok(ingredient);
+                return Ok(ingredient.ToDto());
 
             }
             catch (KeyNotFoundException ex){

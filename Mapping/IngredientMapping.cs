@@ -9,19 +9,21 @@ public static class IngredientMapping
 {
     public static Ingredient ToEntity(this CreateIngredientDto createIngredientDto, Allergen? allergen)
     {
-        return new Ingredient{
+        return new Ingredient
+        {
             Name = createIngredientDto.Name,
             Allergen = allergen,
-            ContainsGluten=createIngredientDto.ContainsGluten
+            ContainsGluten = createIngredientDto.ContainsGluten
         };
     }
 
     public static Ingredient ToEntity(this UpdateIngredientDto updateIngredientDto, Allergen? allergen)
     {
-        return new Ingredient{
+        return new Ingredient
+        {
             Name = updateIngredientDto.Name,
             Allergen = allergen,
-            ContainsGluten=updateIngredientDto.ContainsGluten
+            ContainsGluten = updateIngredientDto.ContainsGluten
         };
     }
 
@@ -31,5 +33,17 @@ public static class IngredientMapping
         ingredient.Allergen = allergen;
         ingredient.ContainsGluten = updateIngredientDto.ContainsGluten;
         return ingredient;
+    }
+
+    public static IngredientDto ToDto(this Ingredient ingredient)
+    {
+        return new IngredientDto(
+        ingredient.Id,           // Guid
+        ingredient.Name,         // string
+        ingredient.Allergen,     // Allergen
+        ingredient.ContainsGluten, // bool
+        ingredient.CreatedAt,
+        ingredient.UpdatedAt
+    );
     }
 }

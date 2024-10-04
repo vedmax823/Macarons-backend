@@ -12,4 +12,5 @@ public class Macaron : AuditableEntity
     public List<Ingredient> Ingredients {get; set;} = [];
     public bool IsXl {get; set;} = false;
     public bool IsCurrentlyUnavailable {get; set;} = true;
+    public string PublicUrl {get; set;} = "";
 }

@@ -3,6 +3,7 @@ using DonMacaron.DTOs;
 using DonMacaron.Entities;
 using DonMacaron.Repositories.AllergenRepository;
 using DonMacaron.Mapping;
+using DonMacaron.DTOs.AllergenDto;
 
 namespace DonMacaron.Services.AllergenService;
 
@@ -20,9 +21,10 @@ public class AllergenService(IAllergenRepository repository) : IAllergenService
         return await _repository.GetAllergenbyId(Id) ?? throw new KeyNotFoundException("Allergen not found");
     }
 
-    public async Task<List<Allergen>> GetAllergens()
+    public async Task<List<AllergenDto>> GetAllergens()
     {
-        return await _repository.GetAllergens();
+        var allergens = await _repository.GetAllergens();
+        return allergens.Select(a => a.ToAllergenDto()).ToList();
     }
 
     public async Task<Allergen> UpdateAllergen(CreateAllergenDto updateAllergenDto, Guid allergenId)

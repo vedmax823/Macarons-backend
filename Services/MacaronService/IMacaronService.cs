@@ -9,7 +9,7 @@ public interface IMacaronService
 {
     public Task<MacaronDto> CreateMacaron(CreateMacaronDto createMacaronDto);
     public Task<List<MacaronDto>> GetMacarons();
-    public Task<Macaron> GetOneById(Guid id);
+    public Task<MacaronDto> GetOneByPublicUrl(string publicUrl);
     public Task<MacaronDto> UpdateMacaron(Guid id,  CreateMacaronDto createMacaronDto);
 
 }
