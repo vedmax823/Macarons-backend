@@ -2,7 +2,7 @@ using System;
 
 namespace DonMacaron.Entities;
 
-public class User
+public class User : AuditableEntity
 {
     public Guid Id { get; set; }
     public required string Login { get; set; }

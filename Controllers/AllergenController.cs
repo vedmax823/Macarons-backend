@@ -1,4 +1,5 @@
 using DonMacaron.DTOs;
+using DonMacaron.Mapping;
 using DonMacaron.Services.AllergenService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +28,7 @@ namespace DonMacaron.Controllers
         {
             try{    
                 var allergen = await _service.GetAllergenById(id);
-                return Ok(allergen);
+                return Ok(allergen.ToAllergenDto());
             }
             catch (KeyNotFoundException ex){
                 return NotFound(ex.Message);
@@ -43,7 +44,7 @@ namespace DonMacaron.Controllers
         {
             try{
                 var allergen = await _service.CreateAllergen(createAllergenDto);
-                return Ok(allergen);
+                return Ok(allergen.ToAllergenDto());
             }
             catch (Exception){
                 return StatusCode(500, new { message = "An unexpected error occurred." });
@@ -57,7 +58,7 @@ namespace DonMacaron.Controllers
         {
             try{
                 var allergen = await _service.UpdateAllergen(updateAlergenDto, id);
-                return Ok(allergen);
+                return Ok(allergen.ToAllergenDto());
             }
             catch (KeyNotFoundException ex){
                 return NotFound(ex.Message);

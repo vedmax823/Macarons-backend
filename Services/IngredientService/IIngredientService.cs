@@ -7,7 +7,7 @@ namespace DonMacaron.Services.IngredientService;
 
 public interface IIngredientService
 {
-    public Task<List<Ingredient>> GetIngredients();
+    public Task<List<IngredientDto>> GetIngredients();
     public Task<Ingredient> CreateIngredient(CreateIngredientDto createIngredientDto);
     public Task<Ingredient> UpdateIngredient(UpdateIngredientDto updateIngredientDto, Guid id);
     public Task<Ingredient> GetIngredientById(Guid id);

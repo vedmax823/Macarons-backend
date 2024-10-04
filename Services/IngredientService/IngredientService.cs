@@ -29,9 +29,10 @@ public class IngredientService(IIngredientRepository ingredientRepository, IAlle
         return await _ingredientRepository.GetIngredientById(id) ?? throw new KeyNotFoundException("Ingredient not Found");
     }
 
-    public async Task<List<Ingredient>> GetIngredients()
+    public async Task<List<IngredientDto>> GetIngredients()
     {
-        return await _ingredientRepository.GetIngredients();
+        var ingredients = await _ingredientRepository.GetIngredients();
+        return ingredients.Select(i => i.ToDto()).ToList();
     }
 
     public async Task<List<Ingredient>> GetIngredientsListByIds(List<Guid> ids)

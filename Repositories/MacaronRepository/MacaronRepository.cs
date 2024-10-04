@@ -1,4 +1,5 @@
 
+
 using DonMacaron.Data;
 using DonMacaron.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -25,11 +26,18 @@ public class MacaronRepository(DataContext context) : IMacaronRepository
         return macaron;
     }
 
+    public async Task<Macaron?> GetMacaronByPublicUrl(string publicUrl)
+    {
+        return await _context.Macarons.FirstOrDefaultAsync(m => m.PublicUrl == publicUrl);
+    }
+    
+
     public async Task<List<Macaron>> GetMacarons()
     {
         return await _context.Macarons
                 .Include(m => m.Ingredients)
                 .ThenInclude(i => i.Allergen)
+                .AsNoTracking()
                 .ToListAsync();
     }
 

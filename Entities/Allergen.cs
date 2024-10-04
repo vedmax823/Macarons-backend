@@ -1,6 +1,6 @@
 namespace DonMacaron.Entities;
 
-public class Allergen
+public class Allergen : AuditableEntity
 {
     public Guid Id {get; set;}
     public required string Name {get; set;}

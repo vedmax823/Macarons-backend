@@ -7,8 +7,9 @@ namespace DonMacaron.Mapping;
 
 public static class MacaronMapping
 {
-    public static Macaron ToEntity(this CreateMacaronDto createMacaronDto, List<Ingredient> ingredients)
+    public static Macaron ToEntity(this CreateMacaronDto createMacaronDto, List<Ingredient> ingredients, string publicUrl)
     {
+
         return new Macaron{
             Taste = createMacaronDto.Taste,
             Description = createMacaronDto.Description,
@@ -17,7 +18,8 @@ public static class MacaronMapping
             IsXl = createMacaronDto.IsXl,
             IsCurrentlyUnavailable = createMacaronDto.IsCurrentlyUnavailable,
             PictureLink = createMacaronDto.PictureLink,
-            Ingredients = ingredients
+            Ingredients = ingredients,
+            PublicUrl = publicUrl
         };
     }
 
@@ -35,11 +37,12 @@ public static class MacaronMapping
             IsXl = m.IsXl,
             IsCurrentlyUnavailable = m.IsCurrentlyUnavailable,
             CreatedAt = m.CreatedAt,
-            UpdatedAt = m.UpdatedAt
+            UpdatedAt = m.UpdatedAt,
+            PublicUrl = m.PublicUrl
         };
     }
 
-    public static Macaron NewEntity(this Macaron macaron, CreateMacaronDto createMacaronDto, List<Ingredient> ingredients)
+    public static Macaron NewEntity(this Macaron macaron, CreateMacaronDto createMacaronDto, List<Ingredient> ingredients, string publicUrl)
     {
         macaron.Taste = createMacaronDto.Taste;
         macaron.Ingredients = ingredients;
@@ -49,6 +52,7 @@ public static class MacaronMapping
         macaron.Description = createMacaronDto.Description;
         macaron.IsXl = createMacaronDto.IsXl;
         macaron.IsCurrentlyUnavailable = createMacaronDto.IsCurrentlyUnavailable;
+        macaron.PublicUrl = publicUrl;
         return macaron;
     }
 }
