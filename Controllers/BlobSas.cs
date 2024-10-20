@@ -21,7 +21,7 @@ namespace DonMacaron.Controllers
         private string? _containerName;
 
         [HttpGet("generate-sas")]
-        // [Authorize]
+        [Authorize]
         public IActionResult GetContainerSasUrl()
         {
             try

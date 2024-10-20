@@ -12,6 +12,8 @@ public class DataContext(DbContextOptions<DataContext> options) : DbContext(opti
     public DbSet<User> Users{get; set;}
     public DbSet<Role> Roles {get; set;}
 
+    public DbSet<MacaronsBox> MacaronsBoxes{get; set;}
+
     public override int SaveChanges()
     {
         foreach (var entry in ChangeTracker.Entries<AuditableEntity>())

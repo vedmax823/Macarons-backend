@@ -1,12 +1,15 @@
 using System.Text;
 using DonMacaron.Data;
+using DonMacaron.Entities;
 using DonMacaron.Repositories;
 using DonMacaron.Repositories.AllergenRepository;
 using DonMacaron.Repositories.IngredientRepository;
 using DonMacaron.Repositories.MacaronRepository;
+using DonMacaron.Repositories.MacaronsBoxRepository;
 using DonMacaron.Services;
 using DonMacaron.Services.AllergenService;
 using DonMacaron.Services.IngredientService;
+using DonMacaron.Services.MacaronsBoxService;
 using DonMacaron.Services.MacaronService;
 using DonMacaron.Services.TokenServices;
 using DonMacaron.Swagger;
@@ -47,6 +50,9 @@ builder.Services.AddScoped<IAllergenRepository, AllergenRepository>();
 
 builder.Services.AddScoped<IIngredientRepository, IngredientRepository>();
 builder.Services.AddScoped<IIngredientService, IngredientService>();
+
+builder.Services.AddScoped<IMacaronsBoxRepository, MacaronsBoxRepository>();
+builder.Services.AddScoped<IMacaronBoxService, MacaronsBoxService>();
 builder.Services.AddScoped<TokenService>();
 
 builder.Services.AddDbContext<DataContext>(options =>
