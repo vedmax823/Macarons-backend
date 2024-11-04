@@ -1,7 +1,8 @@
+using System;
 
-namespace DonMacaron.Entities;
+namespace DonMacaron.Entities.Products.Macarons;
 
-public class Macaron : AuditableEntity
+public class MacaronsVersion : AuditableEntity
 {
     public Guid Id {get; set;}
     public required string Taste{get; set;}
@@ -11,6 +12,6 @@ public class Macaron : AuditableEntity
     public string Description {get; set;} = "";
     public List<Ingredient> Ingredients {get; set;} = [];
     public bool IsXl {get; set;} = false;
-    public bool IsCurrentlyUnavailable {get; set;} = true;
-    public string PublicUrl {get; set;} = "";
+    public bool IsCurrentlyAvailable {get; set;} = true;
+    public int Version {get; set;} = 1;
 }

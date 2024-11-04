@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DonMacaron.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241020095332_Add Macaron Box")]
-    partial class AddMacaronBox
+    [Migration("20241025121623_AddMacaronsBox")]
+    partial class AddMacaronsBox
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,9 +101,6 @@ namespace DonMacaron.Migrations
                     b.Property<bool>("IsXl")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("MacaronsBoxId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("PictureLink")
                         .IsRequired()
                         .HasColumnType("text");
@@ -124,8 +121,6 @@ namespace DonMacaron.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MacaronsBoxId");
-
                     b.ToTable("Macarons");
                 });
 
@@ -145,6 +140,12 @@ namespace DonMacaron.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsCurrentlyUnavailable")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsFixed")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("IsXl")
                         .HasColumnType("boolean");
 
@@ -161,6 +162,10 @@ namespace DonMacaron.Migrations
 
                     b.Property<float>("Price")
                         .HasColumnType("real");
+
+                    b.Property<string>("PublicUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -185,6 +190,32 @@ namespace DonMacaron.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
+                });
+
+            modelBuilder.Entity("DonMacaron.Entities.SmallMacaronsSet", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("MacaronId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("MacaronsBoxId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MacaronId");
+
+                    b.HasIndex("MacaronsBoxId");
+
+                    b.ToTable("SmallMacaronsSets");
                 });
 
             modelBuilder.Entity("DonMacaron.Entities.User", b =>
@@ -261,11 +292,19 @@ namespace DonMacaron.Migrations
                     b.Navigation("Allergen");
                 });
 
-            modelBuilder.Entity("DonMacaron.Entities.Macaron", b =>
+            modelBuilder.Entity("DonMacaron.Entities.SmallMacaronsSet", b =>
                 {
+                    b.HasOne("DonMacaron.Entities.Macaron", "Macaron")
+                        .WithMany()
+                        .HasForeignKey("MacaronId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("DonMacaron.Entities.MacaronsBox", null)
-                        .WithMany("Macarons")
+                        .WithMany("SmallMacaronsSets")
                         .HasForeignKey("MacaronsBoxId");
+
+                    b.Navigation("Macaron");
                 });
 
             modelBuilder.Entity("IngredientMacaron", b =>
@@ -300,7 +339,7 @@ namespace DonMacaron.Migrations
 
             modelBuilder.Entity("DonMacaron.Entities.MacaronsBox", b =>
                 {
-                    b.Navigation("Macarons");
+                    b.Navigation("SmallMacaronsSets");
                 });
 #pragma warning restore 612, 618
         }

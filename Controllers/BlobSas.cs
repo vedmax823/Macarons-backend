@@ -45,7 +45,7 @@ namespace DonMacaron.Controllers
                 // Створюємо SAS токен на рівні облікового запису
                 var sasBuilder = new AccountSasBuilder
                 {
-                    Services = AccountSasServices.Blobs | AccountSasServices.Files | AccountSasServices.Queues | AccountSasServices.Tables,
+                    Services = AccountSasServices.Blobs | AccountSasServices.Files,
                     ResourceTypes = AccountSasResourceTypes.Service | AccountSasResourceTypes.Container | AccountSasResourceTypes.Object,
                     Protocol = sasProtocol == "HttpsAndHttp" ? SasProtocol.HttpsAndHttp : SasProtocol.Https,
                     StartsOn = DateTimeOffset.UtcNow.AddMinutes(-5), // Невеликий зсув назад на випадок різниці часу
@@ -62,7 +62,7 @@ namespace DonMacaron.Controllers
                     new Azure.Storage.StorageSharedKeyCredential(storageName, storageKey)).ToString();
 
                 // Construct SAS URL for the container
-                string sasUrl = $"https://donmacaronstorage.blob.core.windows.net/{_containerName}?{sasToken}";
+                var sasUrl = $"{blobServiceClient.Uri}?{sasToken}";
 
                 return Ok(new { sasUrl });
             }

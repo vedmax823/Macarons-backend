@@ -55,6 +55,8 @@ builder.Services.AddScoped<IMacaronsBoxRepository, MacaronsBoxRepository>();
 builder.Services.AddScoped<IMacaronBoxService, MacaronsBoxService>();
 builder.Services.AddScoped<TokenService>();
 
+builder.Services.AddScoped<DataContextFactory>();
+
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 

@@ -1,9 +1,8 @@
 using System;
-using System.ComponentModel;
 
-namespace DonMacaron.Entities;
+namespace DonMacaron.Entities.Products.Macarons;
 
-public class MacaronsBox : AuditableEntity
+public class MacaronsBoxVersion : AuditableEntity
 {
     public Guid Id {get; set;}
     public required string Name {get; set;}
@@ -13,5 +12,9 @@ public class MacaronsBox : AuditableEntity
     public Int32 NumberOfMacarons {get; set;}
     public float Price{get; set;} = 2.5f;
     public float AdvertismentPrice {get; set;} = 2.5f;
-    public List<Macaron> Macarons{get; set;} = [];
+    public bool IsCurrentlyUnavailable {get; set;} = true;
+    public bool IsFixed {get; set;} = false;
+    public List<SmallMacaronsSet> SmallMacaronsSets { get; set; } = [];
+    public int Version{get; set;} = 1;
+
 }

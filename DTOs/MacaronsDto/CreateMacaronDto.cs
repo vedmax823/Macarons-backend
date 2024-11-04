@@ -9,7 +9,7 @@ public record class CreateMacaronDto
     string PictureLink,
     float Price,
     float AdvertismentPrice,
-    List<Guid> IngredientsIds,
     bool IsXl,
-    bool IsCurrentlyUnavailable
+    bool IsCurrentlyAvailable,
+    List<Guid> IngredientsIds
 );

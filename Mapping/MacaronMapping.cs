@@ -2,24 +2,35 @@ using System;
 using DonMacaron.DTOs;
 using DonMacaron.DTOs.MacaronsDto;
 using DonMacaron.Entities;
+using DonMacaron.Entities.Products.Macarons;
 
 namespace DonMacaron.Mapping;
 
 public static class MacaronMapping
 {
-    public static Macaron ToEntity(this CreateMacaronDto createMacaronDto, List<Ingredient> ingredients, string publicUrl)
+    public static MacaronsVersion ToEntity(this CreateMacaronDto createMacaronDto, List<Ingredient> ingredients, int version = 1)
     {
-
-        return new Macaron{
+        return new()
+        {
             Taste = createMacaronDto.Taste,
             Description = createMacaronDto.Description,
             Price = createMacaronDto.Price,
             AdvertismentPrice = createMacaronDto.AdvertismentPrice,
             IsXl = createMacaronDto.IsXl,
-            IsCurrentlyUnavailable = createMacaronDto.IsCurrentlyUnavailable,
+            IsCurrentlyAvailable = createMacaronDto.IsCurrentlyAvailable,
             PictureLink = createMacaronDto.PictureLink,
             Ingredients = ingredients,
-            PublicUrl = publicUrl
+            Version = version
+        };
+    }
+
+    public static Macaron ToMacaronEnity(this MacaronsVersion macaronsVersion, string publicUrl)
+    {
+        return new() {
+            PublicUrl = publicUrl,
+            CurrentVersionId = macaronsVersion.Id,
+            CurrentVersion = macaronsVersion,
+            MacaronsVersions = [macaronsVersion]
         };
     }
 
@@ -28,31 +39,27 @@ public static class MacaronMapping
         return new()
         {
             Id = m.Id,
-            Taste = m.Taste,
-            PictureLink = m.PictureLink,
-            Price = m.Price,
-            AdvertismentPrice = m.AdvertismentPrice,
-            Description = m.Description,
-            IngredientsIds = m.Ingredients.Select(i => i.Id).ToArray(),
-            IsXl = m.IsXl,
-            IsCurrentlyUnavailable = m.IsCurrentlyUnavailable,
+            Taste = m.CurrentVersion.Taste,
+            PictureLink = m.CurrentVersion.PictureLink,
+            Price = m.CurrentVersion.Price,
+            AdvertismentPrice = m.CurrentVersion.AdvertismentPrice,
+            Description = m.CurrentVersion.Description,
+            IngredientsIds = m.CurrentVersion.Ingredients.Select(i => i.Id).ToArray(),
+            IsXl = m.CurrentVersion.IsXl,
+            IsCurrentlyUnavailable = m.CurrentVersion.IsCurrentlyAvailable,
             CreatedAt = m.CreatedAt,
             UpdatedAt = m.UpdatedAt,
             PublicUrl = m.PublicUrl
         };
     }
 
-    public static Macaron NewEntity(this Macaron macaron, CreateMacaronDto createMacaronDto, List<Ingredient> ingredients, string publicUrl)
+    public static Macaron ToNewEntity(this Macaron macaron, MacaronsVersion macaronsVersion, string publicUrl)
     {
-        macaron.Taste = createMacaronDto.Taste;
-        macaron.Ingredients = ingredients;
-        macaron.PictureLink = createMacaronDto.PictureLink;
-        macaron.Price = createMacaronDto.Price;
-        macaron.AdvertismentPrice = createMacaronDto.AdvertismentPrice;
-        macaron.Description = createMacaronDto.Description;
-        macaron.IsXl = createMacaronDto.IsXl;
-        macaron.IsCurrentlyUnavailable = createMacaronDto.IsCurrentlyUnavailable;
+        macaron.CurrentVersionId = macaronsVersion.Id;
         macaron.PublicUrl = publicUrl;
+        macaron.CurrentVersion = macaronsVersion;
+        macaron.MacaronsVersions.Add(macaronsVersion);
+
         return macaron;
     }
 }

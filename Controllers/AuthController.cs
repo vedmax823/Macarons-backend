@@ -66,6 +66,30 @@ namespace DonMacaron.Controllers
                 AccessToken = accessToken
             });
         }
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // Отримуємо користувача, який виконав запит
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null)
+                return Unauthorized();
+
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            if (user == null)
+                return Unauthorized();
+
+            // Видаляємо refreshToken у базі даних
+            user.RefreshToken = "";
+            user.RefreshTokenExpiryTime = DateTime.MinValue;
+            await _context.SaveChangesAsync();
+
+            // Видаляємо cookie з refreshToken
+            Response.Cookies.Delete("refreshToken");
+
+            return Ok(new { Message = "Successfully logged out" });
+        }
+
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshToken()
         {
@@ -128,16 +152,17 @@ namespace DonMacaron.Controllers
 
             List<Role> roles = [];
 
-            foreach (int i in createUserDto.Roles){
+            foreach (int i in createUserDto.Roles)
+            {
                 var role = await _context.Roles.FindAsync(i);
                 if (role == null) return BadRequest("Role not found");
                 roles.Add(role);
-            } 
+            }
 
             var adminUser = new User
             {
                 Login = createUserDto.Login,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(createUserDto.Password), 
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(createUserDto.Password),
                 Roles = roles
             };
 

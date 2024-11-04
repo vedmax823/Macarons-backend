@@ -34,8 +34,9 @@ namespace DonMacaron.Controllers
             {
                 return NotFound("Macaron wasn't found");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.Write(ex);
                 return StatusCode(500, new { message = "An unexpected error occurred." });
             }
         }

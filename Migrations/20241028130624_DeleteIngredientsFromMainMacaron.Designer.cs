@@ -3,6 +3,7 @@ using System;
 using DonMacaron.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DonMacaron.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20241028130624_DeleteIngredientsFromMainMacaron")]
+    partial class DeleteIngredientsFromMainMacaron
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -113,32 +116,6 @@ namespace DonMacaron.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CurrentVersionId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("PublicUrl")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrentVersionId");
-
-                    b.ToTable("MacaronsBoxes");
-                });
-
-            modelBuilder.Entity("DonMacaron.Entities.Products.Macarons.MacaronsBoxVersion", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
                     b.Property<float>("AdvertismentPrice")
                         .HasColumnType("real");
 
@@ -158,9 +135,6 @@ namespace DonMacaron.Migrations
                     b.Property<bool>("IsXl")
                         .HasColumnType("boolean");
 
-                    b.Property<Guid?>("MacaronsBoxId")
-                        .HasColumnType("uuid");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -175,17 +149,16 @@ namespace DonMacaron.Migrations
                     b.Property<float>("Price")
                         .HasColumnType("real");
 
+                    b.Property<string>("PublicUrl")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTimeOffset>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int>("Version")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("MacaronsBoxId");
-
-                    b.ToTable("MacaronsBoxVersions");
+                    b.ToTable("MacaronsBoxes");
                 });
 
             modelBuilder.Entity("DonMacaron.Entities.Products.Macarons.MacaronsVersion", b =>
@@ -268,14 +241,14 @@ namespace DonMacaron.Migrations
                     b.Property<Guid>("MacaronId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("MacaronsBoxVersionId")
+                    b.Property<Guid?>("MacaronsBoxId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MacaronId");
 
-                    b.HasIndex("MacaronsBoxVersionId");
+                    b.HasIndex("MacaronsBoxId");
 
                     b.ToTable("SmallMacaronsSets");
                 });
@@ -354,24 +327,6 @@ namespace DonMacaron.Migrations
                     b.Navigation("CurrentVersion");
                 });
 
-            modelBuilder.Entity("DonMacaron.Entities.MacaronsBox", b =>
-                {
-                    b.HasOne("DonMacaron.Entities.Products.Macarons.MacaronsBoxVersion", "CurrentVersion")
-                        .WithMany()
-                        .HasForeignKey("CurrentVersionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CurrentVersion");
-                });
-
-            modelBuilder.Entity("DonMacaron.Entities.Products.Macarons.MacaronsBoxVersion", b =>
-                {
-                    b.HasOne("DonMacaron.Entities.MacaronsBox", null)
-                        .WithMany("MacaronsBoxVersions")
-                        .HasForeignKey("MacaronsBoxId");
-                });
-
             modelBuilder.Entity("DonMacaron.Entities.Products.Macarons.MacaronsVersion", b =>
                 {
                     b.HasOne("DonMacaron.Entities.Macaron", null)
@@ -387,9 +342,9 @@ namespace DonMacaron.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DonMacaron.Entities.Products.Macarons.MacaronsBoxVersion", null)
+                    b.HasOne("DonMacaron.Entities.MacaronsBox", null)
                         .WithMany("SmallMacaronsSets")
-                        .HasForeignKey("MacaronsBoxVersionId");
+                        .HasForeignKey("MacaronsBoxId");
 
                     b.Navigation("Macaron");
                 });
@@ -415,11 +370,6 @@ namespace DonMacaron.Migrations
                 });
 
             modelBuilder.Entity("DonMacaron.Entities.MacaronsBox", b =>
-                {
-                    b.Navigation("MacaronsBoxVersions");
-                });
-
-            modelBuilder.Entity("DonMacaron.Entities.Products.Macarons.MacaronsBoxVersion", b =>
                 {
                     b.Navigation("SmallMacaronsSets");
                 });
