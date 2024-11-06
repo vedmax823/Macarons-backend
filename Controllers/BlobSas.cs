@@ -62,7 +62,8 @@ namespace DonMacaron.Controllers
                     new Azure.Storage.StorageSharedKeyCredential(storageName, storageKey)).ToString();
 
                 // Construct SAS URL for the container
-                var sasUrl = $"{blobServiceClient.Uri}?{sasToken}";
+                string sasUrl = $"{blobServiceClient.Uri}{_containerName}?{sasToken}";
+                // string sasUrl =$"{_containerName}";
 
                 return Ok(new { sasUrl });
             }
